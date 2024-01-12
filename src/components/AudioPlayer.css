@@ -1,0 +1,13 @@
+/* AudioPlayer.css */
+
+.audio-player {
+    text-align: center;
+    margin: 20px;
+}
+
+button {
+    margin-top: 10px;
+    padding: 8px 16px;
+    font-size: 16px;
+    cursor: pointer;
+}
