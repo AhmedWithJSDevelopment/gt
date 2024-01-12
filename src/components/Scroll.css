@@ -18,7 +18,7 @@
     cursor: pointer;
     animation: movebtn 3s ease-in-out infinite;
     transition: all .5s ease-in-out;
-    background-image: url(../assets/images/35.gif);
+    background-image: url(../assets/35.gif);
     background-position: center;
     box-shadow: 2px 10px 10px #000000;
 }
@@ -27,7 +27,7 @@
     animation: none;
     color: #551B54;
     color: #fff;
-    background-image: url(../assets/images/33.gif);
+    background-image: url(../assets/33.gif);
     border: 2px solid #551B54;
 }
 
