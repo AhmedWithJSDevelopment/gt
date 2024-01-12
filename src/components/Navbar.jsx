@@ -2,6 +2,7 @@ import { BsCart3, BsMoonFill, BsSunFill } from 'react-icons/bs';
 import { FaBarsStaggered } from 'react-icons/fa6';
 import { NavLink } from 'react-router-dom';
 import NavLinks from './NavLinks';
+import Scroll from './Scroll';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleTheme } from '../features/user/userSlice';
@@ -15,7 +16,7 @@ const Navbar = () => {
 
   const numItemsInCart = useSelector((state) => state.cartState.numItemsInCart);
 
-  return (
+  return (<>
     <nav className='bg-base-200'>
       <div className='navbar align-element'>
         <div className='navbar-start'>
@@ -65,6 +66,12 @@ const Navbar = () => {
         </div>
       </div>
     </nav>
+
+  <div style={{scrollBehavior:'smooth'}}>
+                  <Scroll />
+</div>
+
+    </>
   );
 };
 export default Navbar;
