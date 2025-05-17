@@ -2,7 +2,7 @@
 
 import {AudioPlayer} from '../components';
 
-import Audio from '../assets/Yanni-Truth-of-TOUCH'
+import Audio from '../assets/Yanni-Truth-of-TOUCH.mp3'
 
 const About = () => {
   return (
