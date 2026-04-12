@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // const productionUrl = ' https://strapi-store-server.onrender.com/api';
-const productionUrl = ' https://node-course-e-commerce-n20s.onrender.com/#jump-Auth-LoginUser';
+const productionUrl = ' https://node-course-e-commerce-n20s.onrender.com';
 
 export const customFetch = axios.create({
   baseURL: productionUrl,
