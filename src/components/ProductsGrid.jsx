@@ -37,22 +37,16 @@
 
 
 // ---------------------------
-
-
-
-
-
-
 import { Link, useLoaderData } from 'react-router-dom';
 import { formatPrice } from '../utils';
 
 const ProductsGrid = () => {
   const data = useLoaderData();
 
-  // ✅ حماية البيانات
+  // SAFE DATA
   const products = data?.products || [];
 
-  // ❌ إذا لا يوجد منتجات
+  // NO PRODUCTS CASE
   if (products.length === 0) {
     return (
       <div className="pt-12 text-center text-xl">
@@ -64,8 +58,13 @@ const ProductsGrid = () => {
   return (
     <div className="pt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       {products.map((product) => {
-        // ✅ حماية كل منتج
-        const { _id, name, price, image } = product || {};
+        // SAFE DESTRUCTURE (MongoDB API format)
+        const {
+          _id,
+          name,
+          price,
+          image,
+        } = product || {};
 
         const dollarsAmount = formatPrice(price || 0);
 
@@ -102,3 +101,7 @@ const ProductsGrid = () => {
 };
 
 export default ProductsGrid;
+
+
+
+
