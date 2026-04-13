@@ -24,6 +24,21 @@ const allProductsQuery = (queryParams) => {
   };
 };
 
+// export const loader =
+//   (queryClient) =>
+//   async ({ request }) => {
+//     const params = Object.fromEntries([
+//       ...new URL(request.url).searchParams.entries(),
+//     ]);
+
+//     const response = await queryClient.ensureQueryData(
+//       allProductsQuery(params)
+//     );
+//     const product = response.data.product;
+//     const meta = response.data.count;
+//     return { products, meta, params };
+//   };
+
 export const loader =
   (queryClient) =>
   async ({ request }) => {
@@ -34,8 +49,15 @@ export const loader =
     const response = await queryClient.ensureQueryData(
       allProductsQuery(params)
     );
-    const products = response.data.data;
-    const meta = response.data.meta;
+
+    // ✅ البيانات الصحيحة من الباك اند
+    const products = response.data.products;
+
+    // ✅ بدل meta (نعمل بديل بسيط)
+    const meta = {
+      total: response.data.count,
+    };
+
     return { products, meta, params };
   };
 
