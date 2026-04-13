@@ -146,7 +146,7 @@ const singleProductQuery = (id) => {
   };
 };
 
-// LOADER (SAFE)
+// LOADER (SAFE + FIXED)
 export const loader =
   (queryClient) =>
   async ({ params }) => {
@@ -156,7 +156,7 @@ export const loader =
       );
 
       return {
-      return { product: response?.data?.product || null };
+        product: response?.data?.product || null,
       };
     } catch (error) {
       return {
@@ -169,7 +169,7 @@ const SingleProduct = () => {
   const { product } = useLoaderData();
   const dispatch = useDispatch();
 
-  // ❌ حماية من null product
+  // ❌ حماية من عدم وجود المنتج
   if (!product) {
     return (
       <div className="text-center mt-10 text-xl">
@@ -178,31 +178,32 @@ const SingleProduct = () => {
     );
   }
 
-  // SAFE DESTRUCTURE
- const {
-  image,
-  title,
-  price,
-  description,
-  colors = [],
-  company,
-} = product ?? {};
+  // SAFE DESTRUCTURE (مطابق للـ API)
+  const {
+    image,
+    name,
+    price,
+    description,
+    colors = [],
+    company,
+  } = product;
 
-  const dollarsAmount = formatPrice(price);
+  const dollarsAmount = formatPrice(price || 0);
 
   // SAFE STATE
-  const [productColor, setProductColor] = useState(colors?.[0] || '');
+  const [productColor, setProductColor] = useState(colors[0] || '');
   const [amount, setAmount] = useState(1);
 
   const handleAmount = (e) => {
     setAmount(parseInt(e.target.value));
   };
 
+  // CART PRODUCT
   const cartProduct = {
-    cartID: product.id + productColor,
-    productID: product.id,
+    cartID: product._id + productColor,
+    productID: product._id,
     image,
-    title,
+    name,
     price,
     company,
     productColor,
@@ -229,17 +230,17 @@ const SingleProduct = () => {
 
       {/* PRODUCT */}
       <div className="mt-6 grid gap-y-8 lg:grid-cols-2 lg:gap-x-16">
-        
+
         {/* IMAGE */}
         <img
           src={image}
-          alt={title}
+          alt={name}
           className="w-96 h-96 object-cover rounded-lg lg:w-full"
         />
 
         {/* INFO */}
         <div>
-          <h1 className="capitalize text-3xl font-bold">{title}</h1>
+          <h1 className="capitalize text-3xl font-bold">{name}</h1>
 
           <h4 className="text-xl text-neutral-content font-bold mt-2">
             {company}
@@ -261,7 +262,7 @@ const SingleProduct = () => {
                   key={color}
                   type="button"
                   className={`badge w-6 h-6 mr-2 ${
-                    color === productColor && 'border-2 border-secondary'
+                    color === productColor ? 'border-2 border-secondary' : ''
                   }`}
                   style={{ backgroundColor: color }}
                   onClick={() => setProductColor(color)}
@@ -297,6 +298,7 @@ const SingleProduct = () => {
               Add to bag
             </button>
           </div>
+
         </div>
       </div>
     </section>
@@ -304,13 +306,3 @@ const SingleProduct = () => {
 };
 
 export default SingleProduct;
-
-
-
-
-
-
-
-
-
-
