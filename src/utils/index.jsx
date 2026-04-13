@@ -1,29 +1,29 @@
-import axios from 'axios';
+// import axios from 'axios';
 
-const productionUrl = ' https://strapi-store-server.onrender.com/api';
+// const productionUrl = ' https://strapi-store-server.onrender.com/api';
 
-export const customFetch = axios.create({
-  baseURL: productionUrl,
-});
+// export const customFetch = axios.create({
+//   baseURL: productionUrl,
+// });
 
-export const formatPrice = (price) => {
-  const dollarsAmount = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  }).format((price / 100).toFixed(2));
-  return dollarsAmount;
-};
+// export const formatPrice = (price) => {
+//   const dollarsAmount = new Intl.NumberFormat('en-US', {
+//     style: 'currency',
+//     currency: 'USD',
+//   }).format((price / 100).toFixed(2));
+//   return dollarsAmount;
+// };
 
-export const generateAmountOptions = (number) => {
-  return Array.from({ length: number }, (_, index) => {
-    const amount = index + 1;
-    return (
-      <option key={amount} value={amount}>
-        {amount}
-      </option>
-    );
-  });
-};
+// export const generateAmountOptions = (number) => {
+//   return Array.from({ length: number }, (_, index) => {
+//     const amount = index + 1;
+//     return (
+//       <option key={amount} value={amount}>
+//         {amount}
+//       </option>
+//     );
+//   });
+// };
 
 // --------------------
 
@@ -121,3 +121,86 @@ export const generateAmountOptions = (number) => {
 //     );
 //   });
 // };
+// ----------------------------
+
+
+
+import axios from 'axios';
+
+// 🔥 رابط السيرفر مالك
+const productionUrl = 'https://node-course-e-commerce-n20s.onrender.com/api/v1'; 
+
+export const customFetch = axios.create({
+  baseURL: productionUrl,
+  withCredentials: true,
+});
+
+// =========================
+// 🔥 ADD THIS (المهم)
+// =========================
+
+customFetch.interceptors.response.use(
+  (response) => {
+    const data = response.data;
+
+    // ✅ إذا رجعت قائمة منتجات
+    if (data.products) {
+      response.data = {
+        data: data.products.map((product) => ({
+          id: product._id,
+          attributes: {
+            name: product.name,
+            price: product.price,
+            description: product.description,
+            category: product.category,
+            company: product.company,
+            colors: product.colors,
+            featured: product.featured,
+            freeShipping: product.freeShipping,
+            inventory: product.inventory,
+            averageRating: product.averageRating,
+            numOfReviews: product.numOfReviews,
+
+            // 🔥 الصورة (مهم)
+            image: {
+              data: {
+                attributes: {
+                  url: product.image,
+                },
+              },
+            },
+          },
+        })),
+      };
+    }
+
+    // ✅ إذا منتج واحد
+    if (data.product) {
+      response.data = {
+        data: {
+          id: data.product._id,
+          attributes: {
+            ...data.product,
+            image: {
+              data: {
+                attributes: {
+                  url: data.product.image,
+                },
+              },
+            },
+          },
+        },
+      };
+    }
+
+    return response;
+  },
+  (error) => Promise.reject(error)
+);
+
+
+
+
+
+
+
