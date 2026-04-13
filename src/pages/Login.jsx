@@ -86,7 +86,6 @@ import { toast } from 'react-toastify';
 import { loginUser } from '../features/user/userSlice';
 import { useDispatch } from 'react-redux';
 
-// ACTION
 export const action =
   (store) =>
   async ({ request }) => {
@@ -94,25 +93,18 @@ export const action =
     const data = Object.fromEntries(formData);
 
     try {
-      const response = await customFetch.post(
-        '/auth/login',
-        data,
-        {
-          withCredentials: true,
-        }
-      );
+      // ✅ الصحيح حسب الباك اند
+      const response = await customFetch.post('/auth/login', data);
 
-      // ⚠️ الباك إند يرجع: { user: tokenUser }
       store.dispatch(loginUser(response.data.user));
 
-      toast.success('Logged in successfully');
-
+      toast.success('logged in successfully');
       return redirect('/');
     } catch (error) {
       const errorMessage =
         error?.response?.data?.msg ||
-        error?.response?.data?.error?.message ||
-        'Please double check your credentials';
+        error?.response?.data?.message ||
+        'please double check your credentials';
 
       toast.error(errorMessage);
       return null;
@@ -123,60 +115,34 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // GUEST LOGIN
   const loginAsGuestUser = async () => {
     try {
-      const response = await customFetch.post(
-        '/auth/login',
-        {
-          email: 'test@test.com',
-          password: 'secret',
-        },
-        {
-          withCredentials: true,
-        }
-      );
+      const response = await customFetch.post('/auth/login', {
+        email: 'test@test.com',
+        password: 'secret',
+      });
 
       dispatch(loginUser(response.data.user));
-
-      toast.success('Welcome guest user');
-
+      toast.success('welcome guest user');
       navigate('/');
     } catch (error) {
-      console.log(error);
-      toast.error('Guest user login error. please try again');
+      toast.error('guest user login error');
     }
   };
 
   return (
     <section className="h-screen grid place-items-center">
-
       <Form
         method="post"
         className="card w-96 p-8 bg-base-100 shadow-lg flex flex-col gap-y-4"
       >
-        <h4 className="text-center text-3xl font-bold">
-          Login
-        </h4>
+        <h4 className="text-center text-3xl font-bold">Login</h4>
 
-        {/* ⚠️ الاسم لازم يكون email وليس identifier حسب الباك إند */}
-        <FormInput
-          type="email"
-          label="email"
-          name="email"
-        />
+        <FormInput type="email" label="email" name="email" />
+        <FormInput type="password" label="password" name="password" />
 
-        <FormInput
-          type="password"
-          label="password"
-          name="password"
-        />
+        <SubmitBtn text="login" />
 
-        <div className="mt-4">
-          <SubmitBtn text="login" />
-        </div>
-
-        {/* GUEST */}
         <button
           type="button"
           className="btn btn-secondary btn-block"
@@ -186,17 +152,12 @@ const Login = () => {
         </button>
 
         <p className="text-center">
-          Not a member yet?
-          <Link
-            to="/register"
-            className="ml-2 link link-hover link-primary capitalize"
-          >
+          Not a member?{' '}
+          <Link to="/register" className="link link-primary">
             register
           </Link>
         </p>
-
       </Form>
-
     </section>
   );
 };
