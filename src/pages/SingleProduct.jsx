@@ -156,7 +156,7 @@ export const loader =
       );
 
       return {
-        product: response?.data?.data || null,
+      return { product: response?.data?.product || null };
       };
     } catch (error) {
       return {
@@ -179,14 +179,14 @@ const SingleProduct = () => {
   }
 
   // SAFE DESTRUCTURE
-  const {
-    image,
-    title,
-    price,
-    description,
-    colors = [],
-    company,
-  } = product?.attributes || {};
+ const {
+  image,
+  title,
+  price,
+  description,
+  colors = [],
+  company,
+} = product ?? {};
 
   const dollarsAmount = formatPrice(price);
 
