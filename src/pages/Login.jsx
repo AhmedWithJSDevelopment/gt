@@ -12,8 +12,8 @@ export const action =
     const data = Object.fromEntries(formData);
 
     try {
-      const response = await customFetch.post('/auth/local', data);
-      // const response = await customFetch.post('/auth', data);
+      // const response = await customFetch.post('/auth/local', data);
+      const response = await customFetch.post('/auth', data);
       store.dispatch(loginUser(response.data));
       toast.success('logged in successfully');
       return redirect('/');
@@ -32,8 +32,8 @@ const Login = () => {
 
   const loginAsGuestUser = async () => {
     try {
-      const response = await customFetch.post('/auth/local', {
-      // const response = await customFetch.post('/auth', {
+      // const response = await customFetch.post('/auth/local', {
+      const response = await customFetch.post('/auth', {
         identifier: 'test@test.com',
         password: 'secret',
       });
