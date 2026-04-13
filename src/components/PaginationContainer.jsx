@@ -60,22 +60,19 @@
 // export default PaginationContainer;
 
 // ------------------
-
-
-
-
 import { useLoaderData, useLocation, useNavigate } from 'react-router-dom';
 
 const PaginationContainer = () => {
   const data = useLoaderData();
 
-  // ✅ دعم أي structure (حماية كاملة)
-  const pagination = data?.pagination || data?.meta?.pagination || {};
+  // ✅ حماية شاملة لكل أشكال الـ API
+  const pagination =
+    data?.meta?.pagination ||
+    data?.pagination ||
+    {};
 
-  const pageCount = pagination?.pageCount || 1;
-  const page = pagination?.page || 1;
-
-  const pages = Array.from({ length: pageCount }, (_, index) => index + 1);
+  const pageCount = pagination?.pageCount ?? 1;
+  const page = pagination?.page ?? 1;
 
   const { search, pathname } = useLocation();
   const navigate = useNavigate();
@@ -86,12 +83,18 @@ const PaginationContainer = () => {
     navigate(`${pathname}?${searchParams.toString()}`);
   };
 
-  // ❌ لا تعرض pagination إذا صفحة واحدة
-  if (pageCount < 2) return null;
+  // ❌ لا تعرض إذا صفحة واحدة أو بيانات ناقصة
+  if (!pageCount || pageCount < 2) return null;
+
+  const pages = Array.from(
+    { length: pageCount },
+    (_, index) => index + 1
+  );
 
   return (
     <div className="mt-16 flex justify-end">
       <div className="join">
+
         {/* PREV */}
         <button
           className="btn btn-xs sm:btn-md join-item"
@@ -105,19 +108,17 @@ const PaginationContainer = () => {
         </button>
 
         {/* PAGE NUMBERS */}
-        {pages.map((pageNumber) => {
-          return (
-            <button
-              key={pageNumber}
-              onClick={() => handlePageChange(pageNumber)}
-              className={`btn btn-xs sm:btn-md border-none join-item ${
-                pageNumber === page ? 'bg-base-300 border-base-300' : ''
-              }`}
-            >
-              {pageNumber}
-            </button>
-          );
-        })}
+        {pages.map((pageNumber) => (
+          <button
+            key={pageNumber}
+            onClick={() => handlePageChange(pageNumber)}
+            className={`btn btn-xs sm:btn-md border-none join-item ${
+              pageNumber === page ? 'bg-base-300 border-base-300' : ''
+            }`}
+          >
+            {pageNumber}
+          </button>
+        ))}
 
         {/* NEXT */}
         <button
@@ -136,10 +137,6 @@ const PaginationContainer = () => {
 };
 
 export default PaginationContainer;
-
-
-
-
 
 
 
