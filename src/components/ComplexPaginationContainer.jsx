@@ -92,6 +92,7 @@
 // };
 // export default ComplexPaginationContainer;
 
+// --------------------------------
 
 
 
@@ -101,11 +102,14 @@ import { useLoaderData, useLocation, useNavigate } from 'react-router-dom';
 const ComplexPaginationContainer = () => {
   const data = useLoaderData();
 
-  // ✅ دعم أي API (Strapi أو Express)
-  const pagination = data?.pagination || data?.meta?.pagination || {};
+  // ✅ حماية قوية لكل أشكال الـ API
+  const pagination =
+    data?.meta?.pagination ||
+    data?.pagination ||
+    {};
 
-  const pageCount = pagination?.pageCount || 1;
-  const page = pagination?.page || 1;
+  const pageCount = pagination?.pageCount ?? 1;
+  const page = pagination?.page ?? 1;
 
   const { search, pathname } = useLocation();
   const navigate = useNavigate();
@@ -133,12 +137,15 @@ const ComplexPaginationContainer = () => {
   const renderPageButtons = () => {
     const pageButtons = [];
 
-    // FIRST PAGE
+    // ✅ FIRST PAGE
     pageButtons.push(
-      addPageButton({ pageNumber: 1, activeClass: page === 1 })
+      addPageButton({
+        pageNumber: 1,
+        activeClass: page === 1,
+      })
     );
 
-    // DOTS BEFORE
+    // ✅ DOTS BEFORE
     if (page > 2) {
       pageButtons.push(
         <button className="join-item btn btn-xs sm:btn-md" key="dots-1">
@@ -147,14 +154,17 @@ const ComplexPaginationContainer = () => {
       );
     }
 
-    // CURRENT PAGE
+    // ✅ CURRENT PAGE (if not first or last)
     if (page !== 1 && page !== pageCount) {
       pageButtons.push(
-        addPageButton({ pageNumber: page, activeClass: true })
+        addPageButton({
+          pageNumber: page,
+          activeClass: true,
+        })
       );
     }
 
-    // DOTS AFTER
+    // ✅ DOTS AFTER
     if (page < pageCount - 1) {
       pageButtons.push(
         <button className="join-item btn btn-xs sm:btn-md" key="dots-2">
@@ -163,23 +173,26 @@ const ComplexPaginationContainer = () => {
       );
     }
 
-    // LAST PAGE
-    pageButtons.push(
-      addPageButton({
-        pageNumber: pageCount,
-        activeClass: page === pageCount,
-      })
-    );
+    // ✅ LAST PAGE (avoid duplicate if only 1 page)
+    if (pageCount > 1) {
+      pageButtons.push(
+        addPageButton({
+          pageNumber: pageCount,
+          activeClass: page === pageCount,
+        })
+      );
+    }
 
     return pageButtons;
   };
 
-  // ❌ لا تعرض إذا صفحة واحدة
-  if (pageCount < 2) return null;
+  // ❌ لا تعرض pagination إذا صفحة واحدة أو بيانات ناقصة
+  if (!pageCount || pageCount < 2) return null;
 
   return (
     <div className="mt-16 flex justify-end">
       <div className="join">
+
         {/* PREV */}
         <button
           className="btn btn-xs sm:btn-md join-item"
@@ -192,7 +205,7 @@ const ComplexPaginationContainer = () => {
           Prev
         </button>
 
-        {/* PAGES */}
+        {/* PAGE BUTTONS */}
         {renderPageButtons()}
 
         {/* NEXT */}
@@ -206,17 +219,13 @@ const ComplexPaginationContainer = () => {
         >
           Next
         </button>
+
       </div>
     </div>
   );
 };
 
 export default ComplexPaginationContainer;
-
-
-
-
-
 
 
 
