@@ -5,7 +5,7 @@
 .icon-position {
     position: fixed;
     bottom: 40px;
-    right: 25px;
+    left: 25px; 
     z-index: 20;
 }
 
@@ -83,7 +83,7 @@
     width: 16px !important;
     height: 16px !important;
     bottom: 200px;
-    right: 50px;
+    left: 50px;
     position: fixed;
     animation: movebtn 3s ease-in-out infinite;
     transition: all .5s ease-in-out;
@@ -101,7 +101,7 @@
     /* border-left: 10px solid transparent;
     border-right: 10px solid transparent; */
     bottom: 80px;
-    right: 80px;
+    left: 80px;
 }
 
 .top-to-btm::before {
