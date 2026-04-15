@@ -83,7 +83,7 @@
     width: 16px !important;
     height: 16px !important;
     bottom: 200px;
-    left: 50px;
+    left: 40px;
     position: fixed;
     animation: movebtn 3s ease-in-out infinite;
     transition: all .5s ease-in-out;
