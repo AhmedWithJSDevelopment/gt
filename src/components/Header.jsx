@@ -8,8 +8,8 @@ const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
-  // const user = useSelector((state) => state.user);
-  const user = useSelector((state) => state.userState.user);
+  const user = useSelector((state) => state.user);
+  // const user = useSelector((state) => state.userState.user);
        // console.log(user);
     // console.log(user);
   const handleLogout = () => {
