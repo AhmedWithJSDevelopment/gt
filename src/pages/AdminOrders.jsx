@@ -33,7 +33,10 @@ export const loader =
 
       toast.error('Error fetching admin orders');
 
-      if (error?.response?.status === 401 || error?.response?.status === 403) {
+      if (
+        error?.response?.status === 401 ||
+        error?.response?.status === 403
+      ) {
         return redirect('/login');
       }
 
@@ -43,6 +46,23 @@ export const loader =
 
 const AdminOrders = () => {
   const { orders, count } = useLoaderData();
+
+  // ✅ هنا أضفنا الدالة
+  const updateOrder = async (id) => {
+    try {
+      await customFetch.patch(`/orders/${id}`, {
+        paymentIntentId: 'fakePayment',
+      });
+
+      toast.success('Order updated');
+
+      // ❌ بدل reload الأفضل (لكن أبقيتها حسب طلبك)
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+      toast.error('Update failed');
+    }
+  };
 
   if (count < 1) {
     return <SectionTitle text="No orders found" />;
@@ -61,6 +81,7 @@ const AdminOrders = () => {
               <th>Total</th>
               <th>Status</th>
               <th>Date</th>
+              <th>Action</th>
             </tr>
           </thead>
 
@@ -86,6 +107,16 @@ const AdminOrders = () => {
                   <td>{total}</td>
                   <td>{status}</td>
                   <td>{date}</td>
+
+                  {/* ✅ زر التحديث */}
+                  <td>
+                    <button
+                      className="btn btn-xs btn-success"
+                      onClick={() => updateOrder(_id)}
+                    >
+                      Mark Paid
+                    </button>
+                  </td>
                 </tr>
               );
             })}
