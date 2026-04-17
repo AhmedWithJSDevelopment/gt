@@ -31,10 +31,16 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
+    // loginUser: (state, action) => {
+    //   const user = { ...action.payload.user, token: action.payload.jwt };
+    //   state.user = user;
+    //   localStorage.setItem('user', JSON.stringify(user));
+  // }
+
     loginUser: (state, action) => {
-      const user = { ...action.payload.user, token: action.payload.jwt };
-      state.user = user;
-      localStorage.setItem('user', JSON.stringify(user));
+  state.user = action.payload;
+  localStorage.setItem('user', JSON.stringify(action.payload));
+// }
 // loginUser: (state, action) => {
 //   state.user = action.payload;
 //   localStorage.setItem('user', JSON.stringify(action.payload));
@@ -53,7 +59,7 @@ const userSlice = createSlice({
   // const user = action.payload.user;
   // state.user = user;
   // localStorage.setItem('user', JSON.stringify(user));
-}
+// }
     },
     logoutUser: (state) => {
       state.user = null;
