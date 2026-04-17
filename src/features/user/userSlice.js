@@ -31,10 +31,15 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
+    // loginUser: (state, action) => {
+    //   const user = { ...action.payload.user, token: action.payload.jwt };
+    //   state.user = user;
+    //   localStorage.setItem('user', JSON.stringify(user));
+
     loginUser: (state, action) => {
-      const user = { ...action.payload.user, token: action.payload.jwt };
-      state.user = user;
-      localStorage.setItem('user', JSON.stringify(user));
+  state.user = action.payload.user;
+  localStorage.setItem('user', JSON.stringify(action.payload.user));
+}
     },
     logoutUser: (state) => {
       state.user = null;
