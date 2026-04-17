@@ -5,7 +5,7 @@ const productionUrl = 'https://temp-e-commerce-node-course-main.fly.dev/api/v1';
 
 export const customFetch = axios.create({
   baseURL: productionUrl,
-  withCredentials: true, // 🔥 مهم جدا
+  // withCredentials: true, // 🔥 مهم جدا
 
 });
 
