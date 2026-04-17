@@ -6,10 +6,16 @@ const themes = {
   dracula: 'dracula',
 };
 
+// const getUserFromLocalStorage = () => {
+//   return JSON.parse(localStorage.getItem('user')) || null;
+// };
 const getUserFromLocalStorage = () => {
-  return JSON.parse(localStorage.getItem('user')) || null;
+  try {
+    return JSON.parse(localStorage.getItem('user'));
+  } catch (error) {
+    return null;
+  }
 };
-
 const getThemeFromLocalStorage = () => {
   const theme = localStorage.getItem('theme') || themes.winter;
   document.documentElement.setAttribute('data-theme', theme);
