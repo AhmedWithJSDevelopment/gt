@@ -8,7 +8,7 @@ const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
-  const user = useSelector((state) => state.user.user);
+  const user = useSelector((state) => state.user);
   // const user = useSelector((state) => state.user);
   // const user = useSelector((state) => state.userState.user.user);
        // console.log(state);
