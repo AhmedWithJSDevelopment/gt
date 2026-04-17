@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const productionUrl = 'https://node-course-e-commerce-n20s.onrender.com/api/v1';
+// const productionUrl = 'https://node-course-e-commerce-n20s.onrender.com/api/v1';
+const productionUrl = 'https://temp-e-commerce-node-course-main.fly.dev/api/v1';
 
 export const customFetch = axios.create({
   baseURL: productionUrl,
