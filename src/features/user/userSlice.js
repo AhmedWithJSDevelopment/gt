@@ -36,9 +36,18 @@ const userSlice = createSlice({
     //   state.user = user;
     //   localStorage.setItem('user', JSON.stringify(user));
 
+//     loginUser: (state, action) => {
+//   state.user = action.payload.user;
+//   localStorage.setItem('user', JSON.stringify(action.payload.user));
+// }
+
+
+
+
     loginUser: (state, action) => {
-  state.user = action.payload.user;
-  localStorage.setItem('user', JSON.stringify(action.payload.user));
+  const user = action.payload.user;
+  state.user = user;
+  localStorage.setItem('user', JSON.stringify(user));
 }
     },
     logoutUser: (state) => {
