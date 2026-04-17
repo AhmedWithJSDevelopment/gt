@@ -23,7 +23,8 @@ const getThemeFromLocalStorage = () => {
 };
 
 const initialState = {
-  user: getUserFromLocalStorage(),
+  // user: getUserFromLocalStorage(),
+  user: JSON.parse(localStorage.getItem('user')) || null,
   theme: getThemeFromLocalStorage(),
 };
 
@@ -65,6 +66,13 @@ const userSlice = createSlice({
     //   localStorage.removeItem('user');
     //   toast.success('Logged out successfully');
     // },
+
+
+//     loginUser: (state, action) => {
+//   state.user = action.payload;
+//   localStorage.setItem('user', JSON.stringify(action.payload));
+// },
+
 
 
     loginUser: (state, action) => {
