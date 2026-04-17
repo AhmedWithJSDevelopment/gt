@@ -8,9 +8,10 @@ const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
-  const user = useSelector((state) => state.userState.user);
-       // console.log(user.name);
-    console.log(user);
+  const user = useSelector((state) => state.user);
+  // const user = useSelector((state) => state.userState.user);
+       console.log(user.name);
+    // console.log(user);
   const handleLogout = () => {
     navigate('/');
     dispatch(clearCart());
