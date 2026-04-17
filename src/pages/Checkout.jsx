@@ -3,7 +3,7 @@ import { CheckoutForm, SectionTitle, CartTotals } from '../components';
 import { toast } from 'react-toastify';
 import { redirect } from 'react-router-dom';
 
-export const loader = (store) => () => {
+export const loader = (store) =>async () => {
   const user = store.getState().userState.user;
 
   if (!user) {
