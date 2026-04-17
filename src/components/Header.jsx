@@ -10,7 +10,7 @@ const Header = () => {
   const queryClient = useQueryClient();
   // const user = useSelector((state) => state.user);
   // const user = useSelector((state) => state.user);
-  const user = useSelector((state) => state.userState.user);
+  // const user = useSelector((state) => state.userState.user);
   const user = useSelector((state) => state.user.user);
        // console.log(state);
     console.log(user);
