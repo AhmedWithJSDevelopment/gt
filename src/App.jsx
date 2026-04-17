@@ -123,6 +123,7 @@ import {
   Landing,
   Login,
   Orders,
+  AdminOrders ,
   Products,
   Register,
   SingleProduct,
@@ -207,6 +208,12 @@ const router = createBrowserRouter([
         errorElement: <ErrorElement />,
         loader: ordersLoader(store, queryClient),
       },
+      {
+        path: '/admin/orders',
+         element: <AdminOrders />,
+         errorElement: <ErrorElement />,
+         loader: adminOrdersLoader(store),
+}
     ],
   },
 
