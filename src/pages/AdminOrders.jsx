@@ -35,6 +35,18 @@ const AdminOrders = () => {
     },
   });
 
+
+
+
+  const ordersQuery = (user) => ({
+  queryKey: ['orders'],
+  queryFn: () =>
+    customFetch.get('/orders', {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    }),
+});
   // 🔥 تحديث الطلب
   const updateOrder = async (id) => {
     try {
