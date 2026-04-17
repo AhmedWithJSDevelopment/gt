@@ -51,6 +51,7 @@
 import { useLoaderData } from 'react-router-dom';
 import day from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
+import { formatPrice } from '../utils';
 
 day.extend(advancedFormat);
 
@@ -85,7 +86,7 @@ const OrdersList = () => {
               return (
                 <tr key={_id}>
                   <td>{orderItems.length}</td>
-                  <td>{total}</td>
+                  <td>{formatPrice(total)}</td>
                   <td>{date}</td>
                 </tr>
               );
