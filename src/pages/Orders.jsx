@@ -72,34 +72,100 @@
 
 
 
+// import { redirect, useLoaderData } from 'react-router-dom';
+// import { toast } from 'react-toastify';
+// import { customFetch } from '../utils';
+// import { OrdersList, SectionTitle } from '../components';
+
+// // ✅ loader الصحيح بدون React Query وبدون pagination
+// export const loader =
+//   (store) =>
+//   async () => {
+//     const user = store.getState().userState.user;
+
+//     // ✅ حماية الصفحة
+//     if (!user) {
+//       toast.warn('You must be logged in to view orders');
+//       return redirect('/login');
+//     }
+
+//     try {
+//       const response = await customFetch.get(
+//         '/orders/showAllMyOrders',
+//         {
+//           headers: {
+//             Authorization: `Bearer ${user.token}`,
+//           },
+//         }
+//       );
+
+//       // ✅ الشكل الصحيح من الباك اند
+//       return {
+//         orders: response.data.orders,
+//         count: response.data.count,
+//       };
+//     } catch (error) {
+//       console.log(error);
+
+//       const errorMessage =
+//         error?.response?.data?.msg ||
+//         'there was an error fetching orders';
+
+//       toast.error(errorMessage);
+
+//       // ✅ تصحيح الشرط
+//       if (
+//         error?.response?.status === 401 ||
+//         error?.response?.status === 403
+//       ) {
+//         return redirect('/login');
+//       }
+
+//       return null;
+//     }
+//   };
+
+// const Orders = () => {
+//   const { count } = useLoaderData();
+
+//   // ✅ إذا ماكو طلبات
+//   if (count < 1) {
+//     return <SectionTitle text="please make an order" />;
+//   }
+
+//   return (
+//     <>
+//       <SectionTitle text="Your Orders" />
+//       <OrdersList />
+//     </>
+//   );
+// };
+
+// export default Orders;
+
+
+// -------------------------  
 import { redirect, useLoaderData } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { customFetch } from '../utils';
-import { OrdersList, SectionTitle } from '../components';
+import {
+  OrdersList,
+  SectionTitle,
+} from '../components';
 
-// ✅ loader الصحيح بدون React Query وبدون pagination
 export const loader =
   (store) =>
   async () => {
     const user = store.getState().userState.user;
 
-    // ✅ حماية الصفحة
     if (!user) {
       toast.warn('You must be logged in to view orders');
       return redirect('/login');
     }
 
     try {
-      const response = await customFetch.get(
-        '/orders/showAllMyOrders',
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
-      );
+      const response = await customFetch.get('/orders/showAllMyOrders');
 
-      // ✅ الشكل الصحيح من الباك اند
       return {
         orders: response.data.orders,
         count: response.data.count,
@@ -113,11 +179,7 @@ export const loader =
 
       toast.error(errorMessage);
 
-      // ✅ تصحيح الشرط
-      if (
-        error?.response?.status === 401 ||
-        error?.response?.status === 403
-      ) {
+      if (error?.response?.status === 401 || error?.response?.status === 403) {
         return redirect('/login');
       }
 
@@ -128,7 +190,6 @@ export const loader =
 const Orders = () => {
   const { count } = useLoaderData();
 
-  // ✅ إذا ماكو طلبات
   if (count < 1) {
     return <SectionTitle text="please make an order" />;
   }
