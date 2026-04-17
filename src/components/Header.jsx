@@ -11,7 +11,7 @@ const Header = () => {
   const user = useSelector((state) => state.user.user);
   // const user = useSelector((state) => state.user);
   // const user = useSelector((state) => state.userState.user);
-       console.log(data);
+       console.log(state);
     // console.log(user);
   const handleLogout = () => {
     navigate('/');
