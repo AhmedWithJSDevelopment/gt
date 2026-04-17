@@ -12,7 +12,7 @@ const Header = () => {
   // const user = useSelector((state) => state.user);
   // const user = useSelector((state) => state.userState.user.user);
        // console.log(state);
-    console.log(user);
+    // console.log(user);
   const handleLogout = () => {
     navigate('/');
     dispatch(clearCart());
@@ -25,7 +25,7 @@ const Header = () => {
       <div className='align-element flex justify-center sm:justify-end'>
         {user?.name ? (
           <div className='flex gap-x-2 sm:gap-x-8 items-center'>
-            <p className='text-xs sm:text-sm'>Hello, {user?.name}</p>
+            <p className='text-xs sm:text-sm'>Hello, {user.name}</p>
             <button
               className='btn btn-xs btn-outline btn-primary'
               onClick={handleLogout}
