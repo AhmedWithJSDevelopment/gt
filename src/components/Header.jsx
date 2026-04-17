@@ -12,7 +12,7 @@ const Header = () => {
   // const user = useSelector((state) => state.user);
   const user = useSelector((state) => state.userState.user);
        // console.log(state);
-    // console.log(user);
+    console.log(user);
   const handleLogout = () => {
     navigate('/');
     dispatch(clearCart());
