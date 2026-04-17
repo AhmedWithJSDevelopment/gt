@@ -57,7 +57,8 @@ const AdminOrders = () => {
       toast.success('Order updated');
 
       // ❌ بدل reload الأفضل (لكن أبقيتها حسب طلبك)
-      window.location.reload();
+      // window.location.reload();
+      queryClient.invalidateQueries(['orders']);
     } catch (error) {
       console.log(error);
       toast.error('Update failed');
