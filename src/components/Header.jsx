@@ -21,6 +21,8 @@ const Header = () => {
     dispatch(clearCart());
     dispatch(logoutUser());
     queryClient.removeQueries();
+      console.log("LOGOUT CLICKED");
+
   };
 
   return (
