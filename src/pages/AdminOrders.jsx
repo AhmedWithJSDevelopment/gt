@@ -1,53 +1,41 @@
-import { redirect, useLoaderData } from 'react-router-dom';
+import { redirect } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { customFetch } from '../utils';
 import { SectionTitle } from '../components';
 import day from 'dayjs';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
-export const loader =
-  (store) =>
-  async () => {
-    const user = store.getState().userState.user;
+export const loader = (store) => async () => {
+  const user = store.getState().userState.user;
 
-    // ❌ ليس مسجل دخول
-    if (!user) {
-      toast.warn('You must be logged in');
-      return redirect('/login');
-    }
+  if (!user) {
+    toast.warn('You must be logged in');
+    return redirect('/login');
+  }
 
-    // ❌ ليس أدمن
-    if (user.role !== 'admin') {
-      toast.error('Unauthorized access');
-      return redirect('/');
-    }
+  if (user.role !== 'admin') {
+    toast.error('Unauthorized');
+    return redirect('/');
+  }
 
-    try {
-      const response = await customFetch.get('/orders');
-
-      return {
-        orders: response.data.orders,
-        count: response.data.count,
-      };
-    } catch (error) {
-      console.log(error);
-
-      toast.error('Error fetching admin orders');
-
-      if (
-        error?.response?.status === 401 ||
-        error?.response?.status === 403
-      ) {
-        return redirect('/login');
-      }
-
-      return null;
-    }
-  };
+  return null; // React Query سيجلب البيانات
+};
 
 const AdminOrders = () => {
-  const { orders, count } = useLoaderData();
+  const queryClient = useQueryClient();
 
-  // ✅ هنا أضفنا الدالة
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  // 🔥 React Query fetch
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['orders'],
+    queryFn: async () => {
+      const res = await customFetch.get('/orders');
+      return res.data;
+    },
+  });
+
+  // 🔥 تحديث الطلب
   const updateOrder = async (id) => {
     try {
       await customFetch.patch(`/orders/${id}`, {
@@ -56,14 +44,17 @@ const AdminOrders = () => {
 
       toast.success('Order updated');
 
-      // ❌ بدل reload الأفضل (لكن أبقيتها حسب طلبك)
-      // window.location.reload();
+      // 🔥 تحديث تلقائي بدون reload
       queryClient.invalidateQueries(['orders']);
     } catch (error) {
-      console.log(error);
       toast.error('Update failed');
     }
   };
+
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>Error loading orders</p>;
+
+  const { orders, count } = data;
 
   if (count < 1) {
     return <SectionTitle text="No orders found" />;
@@ -109,7 +100,6 @@ const AdminOrders = () => {
                   <td>{status}</td>
                   <td>{date}</td>
 
-                  {/* ✅ زر التحديث */}
                   <td>
                     <button
                       className="btn btn-xs btn-success"
